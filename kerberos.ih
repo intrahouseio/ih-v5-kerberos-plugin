@@ -1,0 +1,7 @@
+{
+    "id":"kerberos",
+    "description":"Kerberos plugin",
+    "cross":true,
+	"version":"5.0.1"
+}
+

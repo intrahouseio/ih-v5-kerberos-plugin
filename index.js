@@ -1,19 +1,35 @@
-const kerberos = require('kerberos');
+/**
+ * index.js
+ *   Точка входа плагина
+ */
 
-async function main() {
-  const token = 'YII...'
-  const service = 'HTTP@scada.my-company.com';
+const util = require('util');
 
-  const kerberosServer = await kerberos.initializeServer(service);
-  
-  await kerberosServer.step(token);
+const app = require('./app');
 
+(async () => {
+  let plugin;
+  try {
+    const opt = getOptFromArgs();
+    const pluginapi = opt && opt.pluginapi ? opt.pluginapi : 'ih-plugin-api';
+    plugin = require(pluginapi + '/index.js')();
+    plugin.log('Plugin Kerberos has started.', 1);
 
-  console.log(kerberosServer.username)
-  console.log(kerberosServer.targetName)
-  console.log(kerberosServer.contextComplete)
-  console.log(kerberosServer.response)
+    plugin.params = await plugin.params.get();
+    plugin.log('Received params...');
+    plugin.log('Params:' + util.inspect(plugin.params), 1);
+    await app(plugin);
+  } catch (err) {
+    plugin.exit(8, 'ERROR: ' + util.inspect(err));
+  }
+})();
+
+function getOptFromArgs() {
+  let opt;
+  try {
+    opt = JSON.parse(process.argv[2]); //
+  } catch (e) {
+    opt = {};
+  }
+  return opt;
 }
-
-main();
-

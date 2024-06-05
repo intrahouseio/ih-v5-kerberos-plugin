@@ -1,0 +1,7 @@
+{
+  "name": "kerberos",
+  "description": "Kerberos plugin",
+  "service": "kerberos",
+  "single": 1,
+  "nochannels": 1
+}
