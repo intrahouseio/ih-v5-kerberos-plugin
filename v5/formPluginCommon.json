@@ -18,7 +18,7 @@
       "prop": "spn",
       "title": "Service Principal Name",
       "type": "input",
-      "default": "HTTP/scada.my-company.com"
+      "default": ""
     }
   ],
   "p3": [
